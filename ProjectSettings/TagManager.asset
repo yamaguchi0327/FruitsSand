@@ -30,6 +30,8 @@ TagManager:
   - Fruits_muscatright
   - Fruits_banana
   - Cream
+  - Fruits_grapefull
+  - Fruits_muscatfull
   layers:
   - Default
   - TransparentFX

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5133345355271715381}
   m_Layer: 0
   m_Name: MuscatObj
-  m_TagString: Fruits_muscat
+  m_TagString: Fruits_muscatfull
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -147,7 +147,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onCream: 0
   mousePointInWorld: {x: 0, y: 0, z: 0}
-  button: {fileID: 0}
 --- !u!60 &5133345355271715381
 PolygonCollider2D:
   m_ObjectHideFlags: 0

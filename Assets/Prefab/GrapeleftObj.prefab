@@ -147,7 +147,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onCream: 0
   mousePointInWorld: {x: 0, y: 0, z: 0}
-  button: {fileID: 0}
 --- !u!60 &1608544439339260625
 PolygonCollider2D:
   m_ObjectHideFlags: 0
