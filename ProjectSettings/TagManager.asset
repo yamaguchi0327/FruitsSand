@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Orange
+  - Kiwi
+  - cutKiwi
+  - Straw
+  - Grape
+  - Grape_left
+  - Grape_right
+  - Muscat
+  - Muscat_left
+  - Muscat_right
+  - Banana
+  - FruitsObj
+  - pan_arround
+  - Undefined
+  - Fruits_orange
+  - Fruits_kiwi
+  - Fruits_cutkiwi
+  - Fruits_straw
+  - Fruits_grape
+  - Fruits_grapeleft
+  - Fruits_graperight
+  - Fruits_muscat
+  - Fruits_muscatleft
+  - Fruits_muscatright
+  - Fruits_banana
+  - Cream
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: pan
+    uniqueID: 1130561651
+    locked: 0
+  - name: fruits
+    uniqueID: 3601146841
+    locked: 0
