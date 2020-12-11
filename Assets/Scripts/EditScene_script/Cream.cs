@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class Cream : MonoBehaviour
 {
     //最終的に次のシーンへ持ち込む辞書型のフルーツリスト
-    Dictionary<string, List<double>> fruitsData;
+    public Dictionary<string, List<double>> fruitsData;
 
     // クリームに乗っているフルーツを入れるリスト
     List<GameObject> fruitsOnCream;
