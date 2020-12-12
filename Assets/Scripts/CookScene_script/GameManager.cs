@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
         //クリーム生成
         if(isIncreasingCream){
             if (cream.transform.localScale.y <= creamChangeScale){
-                cream.transform.localScale += new Vector3(0, 0.01f, 0);
+                cream.transform.localScale += new Vector3(0, 0.02f, 0);
             }else{
                 isIncreasingCream = false;
             }
@@ -113,6 +113,7 @@ public class GameManager : MonoBehaviour
             blankObj2.GetComponent<Renderer>().material = blankMaterial;
             //上にのせるパン表示
             Instantiate(pans, new Vector3(6.19f, (float)(cream.GetComponent<MeshRenderer>().bounds.size.y + pans.GetComponent<MeshRenderer>().bounds.size.y * 0.5), 6.25f), Quaternion.Euler(90f, 0, 0f));
+            Text.text = "パンをのせてください"; 
             nextFruitId++;
             return;
         }else if (nextFruitId == fruitsNum + 3)
