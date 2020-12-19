@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using UnityEngine.UI;
+using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.SceneManagement;
 
@@ -19,9 +19,24 @@ public class Cream : MonoBehaviour
 
     public IOrderedEnumerable<KeyValuePair<string, List<double>>> sortedFruits;
 
+    //スライダー
+    public Slider creamSlider; //クリームのサイズ変更用スライダー
+    float creamMaxSize = 5.2f;
+    float creamMinSize = 2.6f;
+
+    //クリームの左右のパン
+    public GameObject rightPan;
+    public GameObject leftPan;
+    //クリームの右端、左端のx座標をいれる
+    double creamRight;
+    double creamLeft;
+    //クリームの最初のサイズ
+    Vector3 creamSize = new Vector3(5.2f, 12.3598f, 0.8f);
+
     // 確定ボタン（オブジェクトとUIで分かれてるっぽい）
     //public GameObject buttonObj;
     //Button button;
+
     private void Awake()
     {
         DontDestroyOnLoad(this.transform.root.gameObject);
@@ -33,16 +48,10 @@ public class Cream : MonoBehaviour
         fruitsData = new Dictionary<string, List<double>>();
         fruitsOnCream = new List<GameObject>();
 
-        // クリームの原点を右下に
-        creamPivot_x = this.transform.position.x + 0.5 * this.transform.localScale.x;
-        creamPivot_y = this.transform.position.y - 0.5 * this.transform.localScale.y;
-
-        // ボタンの取得
-        //button = buttonObj.GetComponent<Button>();
-        //button.onClick.AddListener(CreateFruitsList);
-
-        //EditSceneからCookSceneにCreamオブジェクトを持ち越す
-        // sortedFruitsをCookSceneで使いたいから
+        //クリームの最大値・最小値・最初のスライダーの値をスライダーに代入
+        creamSlider.maxValue = creamMaxSize;
+        creamSlider.minValue = creamMinSize;
+        creamSlider.value = creamMaxSize;
 
     }
 
@@ -50,6 +59,22 @@ public class Cream : MonoBehaviour
     void Update()
     {
        
+    }
+
+    //スライダーによる生クリームの幅変更
+    public void CreamSlider()
+    {
+        //クリームのサイズをスライダーに合わせて変更
+        creamSize.x = creamSlider.value;
+        this.transform.localScale = creamSize;
+
+        //クリームのサイズを変えた時の左右のx座標
+        creamRight = this.transform.position.x + 0.5 * this.transform.localScale.x; //クリームのサイズを変えた時の右端のx座標
+        creamLeft = this.transform.position.x - 0.5 * this.transform.localScale.x;　//クリームのサイズを変えた時の右端のy座標
+
+        //パンをクリームのサイズに合わせて移動させる
+        rightPan.gameObject.transform.position = new Vector3((float)creamRight + rightPan.gameObject.transform.localScale.x*0.5f , transform.position.y, transform.position.z);
+        leftPan.gameObject.transform.position = new Vector3((float)creamLeft - leftPan.gameObject.transform.localScale.x*0.5f , transform.position.y, transform.position.z);
     }
 
     //クリームの上に居るかどうかの判定
@@ -69,6 +94,10 @@ public class Cream : MonoBehaviour
     //確定ボタンを押した時に実行される
     public void CreateFruitsList()
     {
+        // クリームの原点を右下に
+        creamPivot_x = this.transform.position.x + 0.5 * this.transform.localScale.x;
+        creamPivot_y = this.transform.position.y - 0.5 * this.transform.localScale.y;
+
         //パンの上に乗っているオブジェクトをfruitsOnCreamリストに入れる
         // GameObject型の全てのオブジェクトを取得し要素分繰り返す
         foreach (GameObject obj in FindObjectsOfType(typeof(GameObject)))

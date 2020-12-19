@@ -8,8 +8,7 @@ public class GameManager : MonoBehaviour
 {
     GameObject creamObj;
     GameObject pan;
-    public GameObject blankObj1;
-    public GameObject blankObj2;
+    public GameObject blankObj;
     public GameObject cutLine;
     public Material blankMaterial;
 
@@ -60,11 +59,15 @@ public class GameManager : MonoBehaviour
         FruitsData = creamObj.GetComponent<Cream>().fruitsData;
         fruitsNum = FruitsData.Count;
 
-        ////最初に生クリームをぬる
+        //最初に生クリームをぬる
         defaultCreameSizeY = cream.GetComponent<MeshRenderer>().bounds.size.y; //倍率算出のため　scale1の時の実寸サイズ
         creamChangeScale = (float)sortedFruits.ElementAt(0).Value[1] / defaultCreameSizeY;
+        //creamChangeScale *= creamObj.transform.localScale.x / 5.2f;
+
+        //Debug.Log(cream.transform.localScale.x);
 
         // デフォルトのサイズをとってから縮めてる
+        Debug.Log(defaultCreameSizeY);
         cream.transform.localScale  = new Vector3(cream.transform.localScale.x, 0.01f, cream.transform.localScale.z);
     }
 
@@ -103,14 +106,21 @@ public class GameManager : MonoBehaviour
             return;
         }else if(nextFruitId == fruitsNum + 1){
             //左右の隙間にフルーツとクリーム埋める
-            blankObj1.gameObject.SetActive(true);
-            blankObj2.gameObject.SetActive(true);
+            //blankObj.gameObject.SetActive(true);
+            GameObject bo1 = Instantiate(blankObj, new Vector3(9.51f, 0, 3.1f), Quaternion.Euler(0f, -90f, 0f));
+            GameObject bo2 = Instantiate(blankObj, new Vector3(2.93f, 0, 9.6f), Quaternion.Euler(0f, 90f, 0f));
+            Vector3 boScale = new Vector3(1, 1, 1);
+            boScale.y = cream.transform.localScale.y*0.01f;
+            bo1.transform.localScale = boScale;
+            bo2.transform.localScale = boScale;
+            //bo1.transform.localScale = new Vector3(1, (float)(creamObj.transform.localScale.y*0.5), 1);
+            //bo2.transform.localScale = new Vector3(1, (float)(creamObj.transform.localScale.y*0.5), 1);
+
             nextFruitId++;
             Text.text = "左右の隙間に生クリームと余ったフルーツをのせてください";
             return;
         }else if(nextFruitId == fruitsNum + 2){
-            blankObj1.GetComponent<Renderer>().material = blankMaterial;
-            blankObj2.GetComponent<Renderer>().material = blankMaterial;
+            blankObj.GetComponent<Renderer>().material = blankMaterial;
             //上にのせるパン表示
             Instantiate(pans, new Vector3(6.19f, (float)(cream.GetComponent<MeshRenderer>().bounds.size.y + pans.GetComponent<MeshRenderer>().bounds.size.y * 0.5), 6.25f), Quaternion.Euler(90f, 0, 0f));
             Text.text = "パンをのせてください"; 
@@ -119,7 +129,8 @@ public class GameManager : MonoBehaviour
         }else if (nextFruitId == fruitsNum + 3)
         {
             //カットライン表示
-            cutLine.gameObject.SetActive(true);
+            //cutLine.gameObject.SetActive(true);
+            Instantiate(cutLine, new Vector3(6.19f, (float)(cream.GetComponent<MeshRenderer>().bounds.size.y + pans.GetComponent<MeshRenderer>().bounds.size.y), 6.25f), Quaternion.Euler(90f,90f,45f));
             Text.text = "線の通りに包丁でカットしてください";
             nextFruitId++;
             return;
@@ -222,7 +233,8 @@ public class GameManager : MonoBehaviour
             nextFruitId++;
             //Debug.Log("フル");
         }
-        else{
+        else
+        {
             creamChangeScale = nextFruitPositionY  / defaultCreameSizeY;　//scaleを変えるために何倍にすればいいか
             isIncreasingCream = true;
             Text.text = "生クリームを塗ってください";
