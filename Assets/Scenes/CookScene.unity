@@ -1584,6 +1584,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4acb84b0bdaf749f8b4deecfd5b0ef62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fruitsSpriteImages:
+  - {fileID: 21300000, guid: b0422d545b4aa4d958b44d4415a13d5c, type: 3}
+  - {fileID: 21300000, guid: e2c418d9a8a14445daad5697f385f13f, type: 3}
+  - {fileID: 21300000, guid: 82da328d6005042a3a7b4ab8bff6e937, type: 3}
+  - {fileID: 21300000, guid: 9b48e81ecd10648f0bf033d78623f4f5, type: 3}
+  - {fileID: 21300000, guid: ae294967796f24f0d922223e6bdf3dfb, type: 3}
+  - {fileID: 21300000, guid: b18ec1558775343779f9b5a0111b6c3f, type: 3}
+  dispalyFruits:
+  - {fileID: 1651869196}
+  - {fileID: 1946628839}
+  - {fileID: 1180108928}
+  - {fileID: 1935641810}
+  - {fileID: 68820945}
+  - {fileID: 958041015}
 --- !u!4 &1039028586
 Transform:
   m_ObjectHideFlags: 0
@@ -2401,7 +2415,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1651869197
 Transform:
   m_ObjectHideFlags: 0
@@ -2867,7 +2881,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\xD7 3"
+  m_Text: "\xD7 0"
 --- !u!222 &1953702853
 CanvasRenderer:
   m_ObjectHideFlags: 0
