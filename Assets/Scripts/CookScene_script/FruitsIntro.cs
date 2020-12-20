@@ -8,19 +8,43 @@ public class FruitsIntro : MonoBehaviour
 {
     GameObject creamObj;
     Dictionary<string, List<double>> FruitsData; //持ってきてるやつ
-
+     
     // フルーツの添字対応表。この添字を元に以下を参照する
     Dictionary<string, int> fruitsIdTable;
+    // カットフルーツの添字対応表。この添字を元に以下を参照する
+    Dictionary<string, int> cutFruitsIdTable;
+
     //フルーツの個数を格納する配列
     float [] fruitsNumList = new float[6];
     //cut系のフルーツの個数を格納する配列
-    float[] cutFruitsNumList = new float[6];
+    float[] cutFruitsNumList = new float[4];
+
+    //FruitsType
     // 使う画像の配列
     public Sprite[] fruitsSpriteImages;
     // 表示名の配列
-    string [] fruitsNameList = { "キウイ", "みかん", "マスカット", "ぶどう", "いちご", "バナナ" };
+    string[] fruitsNameList = { "キウイ", "マスカット", "ぶどう", "バナナ", "みかん", "いちご" };
     // 表示用のフルーツオブジェクト配列
     public GameObject[] dispalyFruits;
+
+    //FruitsCut
+    // 使う画像の配列
+    public Sprite[] cutFruitsSpriteImages;
+    // 表示用のフルーツオブジェクト配列
+    public GameObject[] dispalyCutFruits;
+
+    public GameObject FruitsNumGroupes;
+    public GameObject FruitsCutGroupes;
+
+    public GameObject buttonNext1;
+    public GameObject buttonNext2;
+    public GameObject buttonNext3;
+    public GameObject buttonCream;
+    public GameObject bg;
+
+    public GameObject cream;
+    public GameObject pans;
+
 
     // Start is called before the first frame update
     void Start()
@@ -30,23 +54,17 @@ public class FruitsIntro : MonoBehaviour
 
         fruitsIdTable = new Dictionary<string, int>();
         fruitsIdTable.Add("kiwi", 0);
-        fruitsIdTable.Add("orange", 1);
-        fruitsIdTable.Add("muscat", 2);
-        fruitsIdTable.Add("grape", 3);
-        fruitsIdTable.Add("straw", 4);
-        fruitsIdTable.Add("banana", 5);
+        fruitsIdTable.Add("muscat", 1);
+        fruitsIdTable.Add("grape", 2);
+        fruitsIdTable.Add("banana", 3);
+        fruitsIdTable.Add("orange", 4);
+        fruitsIdTable.Add("straw", 5);
 
-        //cutFruitsNumList = new Dictionary<string, int>();
-        //fruitsNumList.Add("kiwi", 0);
-        //fruitsNumList.Add("muscat", 0);
-        //fruitsNumList.Add("grape", 0);
-        //fruitsNumList.Add("banana", 0);
-
-
-        for (int i = 0; i < fruitsNumList.Length; i++){
-            fruitsNumList[i] = 0f;
-            cutFruitsNumList[i] = 0f;
-        }
+        cutFruitsIdTable = new Dictionary<string, int>();
+        cutFruitsIdTable.Add("kiwi", 0);
+        cutFruitsIdTable.Add("muscat", 1);
+        cutFruitsIdTable.Add("grape", 2);
+        cutFruitsIdTable.Add("banana", 3);
 
         fruitsType();
     }
@@ -57,11 +75,11 @@ public class FruitsIntro : MonoBehaviour
         
     }
 
+    //用意するフルーツの説明
     void fruitsType()
     {
         foreach (KeyValuePair<string, List<double>> item in FruitsData)
         {
-            Debug.Log("unti");
             if (item.Key.Contains("Fruits_orange"))
             {
                 fruitsNumList[fruitsIdTable["orange"]]++;
@@ -100,6 +118,7 @@ public class FruitsIntro : MonoBehaviour
             else if (item.Key.Contains("Fruits_banana"))
             {
                 fruitsNumList[fruitsIdTable["banana"]] += 0.33f;
+                cutFruitsNumList[fruitsIdTable["banana"]]++;
             }
         }
 
@@ -125,5 +144,79 @@ public class FruitsIntro : MonoBehaviour
             }
         }
 
+    }
+
+    //カット方法の説明
+    public void frutisCut()
+    {
+        //fruitsTypeで表示したUIを見えなくする
+        FruitsNumGroupes.SetActive(false);
+        buttonNext1.SetActive(false);
+        buttonNext2.SetActive(true);
+
+        int displayCutFruitsIndex = 0; // 必要なフルーツオブジェクトを参照するindex
+
+        //配列cutFruitsIdTableすべて回す
+        foreach (KeyValuePair<string, int> fruitsId in cutFruitsIdTable)
+        {
+            //カットフルーツが一つ以上あったら
+            if (cutFruitsNumList[fruitsId.Value] > 0)
+            {
+                // 0個でなければ、dispalyCutFruitsのsetActiveをtrueにし、画像、名前を差し替え、個数表示
+                dispalyCutFruits[displayCutFruitsIndex].SetActive(true);
+
+                Text nameText = dispalyCutFruits[displayCutFruitsIndex].transform.GetChild(0).GetComponent<Text>(); // 0番目は名前
+
+                //個数が1個以上の時、個数も名前の横につける 例：キウイ（２個分）
+                if (cutFruitsNumList[fruitsId.Value] > 1)
+                {
+                    nameText.text = fruitsNameList[fruitsId.Value] + "(" + cutFruitsNumList[fruitsId.Value] + "個分)";
+
+                }else{
+                    nameText.text = fruitsNameList[fruitsId.Value];
+                }
+
+                GameObject image = dispalyCutFruits[displayCutFruitsIndex].transform.GetChild(1).gameObject; // 1番目は画像
+                image.GetComponent<Image>().sprite = cutFruitsSpriteImages[fruitsId.Value];
+
+                Text introText = dispalyCutFruits[displayCutFruitsIndex].transform.GetChild(2).GetComponent<Text>(); // 2番目は説明
+
+                Text arrowText = dispalyCutFruits[displayCutFruitsIndex].transform.GetChild(3).GetComponent<Text>(); // 3番目は矢印
+
+                GameObject image2 = dispalyCutFruits[displayCutFruitsIndex].transform.GetChild(4).gameObject; // 4番目は画像
+                Text introText2 = dispalyCutFruits[displayCutFruitsIndex].transform.GetChild(5).GetComponent<Text>(); // 5番目は説明
+
+                if (fruitsIdTable[fruitsId.Key] == 0){
+                    //キウイの時
+                    introText.text = "皮をむきます";
+                    image2.GetComponent<Image>().sprite = cutFruitsSpriteImages[4];
+                    introText2.text = "5mm幅に切ります";
+                }else if(fruitsIdTable[fruitsId.Key] == 3){
+                    //バナナの時
+                    introText.text = "皮をむきます";
+                    image2.GetComponent<Image>().sprite = cutFruitsSpriteImages[5];
+                    introText2.text = "３等分します";
+                }else{
+                    //マスカット・ぶどうの時
+                    introText.text = "半分に切ります";
+                    arrowText.enabled = false;
+                    image2.SetActive(false);
+                    introText2.enabled = false;
+                }
+
+                displayCutFruitsIndex++;
+            }
+        }
+    }
+
+    //GameManagerへつなげるボタン
+    public void buttonFastner(){
+        bg.SetActive(false);
+        FruitsCutGroupes.SetActive(false);
+        buttonNext2.SetActive(false);
+        buttonNext3.SetActive(true);
+        buttonCream.SetActive(true);
+        cream.SetActive(true);
+        pans.SetActive(true);
     }
 }

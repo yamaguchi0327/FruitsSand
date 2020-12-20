@@ -6,8 +6,11 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    //Cream.csから持ってきた平面オブジェクト
     GameObject creamObj;
+    ////Cream.csから持ってきたcreamOjの親要素
     GameObject pan;
+
     public GameObject blankObj;
     public GameObject cutLine;
     public Material blankMaterial;
@@ -53,8 +56,10 @@ public class GameManager : MonoBehaviour
     {
         creamObj = GameObject.Find("Cream");
         pan = GameObject.Find("pan");
+        //Cream.csから持ってきた平面オブジェクトをカメラに映らない位置に固定
         pan.gameObject.transform.position = new Vector3(6f, -60f, 0);
-        //Debug.Log(creamObj);
+
+        //Cream.csの配列を代入
         sortedFruits = creamObj.GetComponent<Cream>().sortedFruits;
         FruitsData = creamObj.GetComponent<Cream>().fruitsData;
         fruitsNum = FruitsData.Count;
@@ -109,8 +114,11 @@ public class GameManager : MonoBehaviour
             //blankObj.gameObject.SetActive(true);
             GameObject bo1 = Instantiate(blankObj, new Vector3(9.51f, 0, 3.1f), Quaternion.Euler(0f, -90f, 0f));
             GameObject bo2 = Instantiate(blankObj, new Vector3(2.93f, 0, 9.6f), Quaternion.Euler(0f, 90f, 0f));
-            Vector3 boScale = new Vector3(1, 1, 1);
-            boScale.y = cream.transform.localScale.y*0.01f;
+            //クリームとおんなじ仕組みでblankobjのサイズを決める
+            float defaultBlankSizeY = blankObj.GetComponent<MeshRenderer>().bounds.size.y;
+            float blankChangeScale = cream.GetComponent<MeshRenderer>().bounds.size.y / defaultBlankSizeY;
+            Vector3 boScale = new Vector3(1, blankChangeScale, 1);
+           
             bo1.transform.localScale = boScale;
             bo2.transform.localScale = boScale;
             //bo1.transform.localScale = new Vector3(1, (float)(creamObj.transform.localScale.y*0.5), 1);
