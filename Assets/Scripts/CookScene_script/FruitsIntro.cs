@@ -41,6 +41,7 @@ public class FruitsIntro : MonoBehaviour
     public GameObject buttonNext3;
     public GameObject buttonCream;
     public Text explanationText;
+    public GameObject textSwipe; //「スワイプできます」
     public GameObject bg;
 
     public GameObject cream;
@@ -229,6 +230,7 @@ public class FruitsIntro : MonoBehaviour
         buttonCream.SetActive(true);
         cream.SetActive(true);
         pans.SetActive(true);
-        explanationText.text = "食パンを用意してください";
+        textSwipe.SetActive(true);
+        explanationText.text = "ラップの上に食パンを用意してください";
     }
 }

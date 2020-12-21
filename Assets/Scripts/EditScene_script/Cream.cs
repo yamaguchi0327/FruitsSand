@@ -33,9 +33,11 @@ public class Cream : MonoBehaviour
     //クリームの最初のサイズ
     Vector3 creamSize = new Vector3(5.2f, 12.3598f, 0.8f);
 
-    // 確定ボタン（オブジェクトとUIで分かれてるっぽい）
-    //public GameObject buttonObj;
-    //Button button;
+    //ヘッダーのボタン
+    public Button buttonWant;
+
+    public GameObject wantObjs;
+    public Button wantButton;
 
     private void Awake()
     {
@@ -89,6 +91,17 @@ public class Cream : MonoBehaviour
         collision.gameObject.GetComponent<DragFruits>().onCream = false;
         //}
 
+    }
+
+    //"用意するもの"表示非表示
+    public void Want()
+    {
+        wantObjs.SetActive(true);
+    }
+
+    public void WantDelate()
+    {
+        wantObjs.SetActive(false);
     }
 
     //確定ボタンを押した時に実行される

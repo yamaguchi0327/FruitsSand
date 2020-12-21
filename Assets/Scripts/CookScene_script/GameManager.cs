@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -25,6 +26,8 @@ public class GameManager : MonoBehaviour
     string fruitsName; //フルーツの名前を代入
     public Text Text; //CookSceneに表示する文字
     public Text Text2; //CookSceneに表示する文字
+    public Text Text3; //CookSceneに表示する文字
+    public GameObject textSwipe;//スワイプテキスト
 
     public GameObject banana;
     public GameObject left_grape;
@@ -47,7 +50,17 @@ public class GameManager : MonoBehaviour
 
     GameObject putFruit = null;
 
+    public GameObject buttonCream;
+    public GameObject buttonMain;
+    public GameObject buttonReturnStart;
+    //ヘッダーのボタン
+    public Button buttonHeadReturnStart;
+    public Button buttonWant;
 
+    public GameObject wantObjs;
+    public Button wantButton;
+
+    public GameObject imageLast;
 
     //一個前においたフルーツを代入
     //GameObject before_putFruit = null;
@@ -75,6 +88,7 @@ public class GameManager : MonoBehaviour
         Debug.Log(defaultCreameSizeY);
         cream.transform.localScale  = new Vector3(cream.transform.localScale.x, 0.01f, cream.transform.localScale.z);
 
+
     }
 
     // Update is called once per frame
@@ -84,7 +98,7 @@ public class GameManager : MonoBehaviour
         //クリーム生成
         if(isIncreasingCream){
             if (cream.transform.localScale.y <= creamChangeScale){
-                cream.transform.localScale += new Vector3(0, 0.02f, 0);
+                cream.transform.localScale += new Vector3(0, 0.03f, 0);
             }else{
                 isIncreasingCream = false;
             }
@@ -130,7 +144,7 @@ public class GameManager : MonoBehaviour
             Text.text = "左右の隙間に生クリームと余ったフルーツをのせてください";
             return;
         }else if(nextFruitId == fruitsNum + 2){
-            blankObj.GetComponent<Renderer>().material = blankMaterial;
+            //blankObj.GetComponent<Renderer>().material = blankMaterial;
             //上にのせるパン表示
             Instantiate(pans, new Vector3(6.19f, (float)(cream.GetComponent<MeshRenderer>().bounds.size.y + pans.GetComponent<MeshRenderer>().bounds.size.y * 0.5), 6.25f), Quaternion.Euler(90f, 0, 0f));
             Text.text = "パンをのせてください"; 
@@ -142,6 +156,19 @@ public class GameManager : MonoBehaviour
             //cutLine.gameObject.SetActive(true);
             Instantiate(cutLine, new Vector3(6.19f, (float)(cream.GetComponent<MeshRenderer>().bounds.size.y + pans.GetComponent<MeshRenderer>().bounds.size.y), 6.25f), Quaternion.Euler(90f,90f,45f));
             Text.text = "ラップで包み、カットするライン(赤線)をラップに書いておいてください";
+            nextFruitId++;
+            return;
+        }else if (nextFruitId == fruitsNum + 4)
+        {
+            //最後
+            Text.text = "３０分以上冷やし、線の通りにカットしたら完成です!";
+            Text3.text = "包丁に熱湯をかけ、温めると切りやすくなります";
+            buttonCream.SetActive(false);
+            buttonMain.SetActive(false);
+            buttonReturnStart.SetActive(true);
+            textSwipe.SetActive(false);
+            //最後の画像表示
+            imageLast.SetActive(true);
             nextFruitId++;
             return;
         }
@@ -233,7 +260,7 @@ public class GameManager : MonoBehaviour
 
         Debug.Log(currentCreamSizeY);
         Debug.Log(nextFruitPositionY);
-        if (Mathf.Abs(currentCreamSizeY - nextFruitPositionY) < 0.2){
+        if (Mathf.Abs(currentCreamSizeY - nextFruitPositionY) < 0.4){
             //フルーツを対角線上におく
             Vector3 panSize = pans.GetComponent<MeshRenderer>().bounds.size; //パンのサイズ取得
             float z = panSize.z * (x / panSize.x); //zをxに比例させる
@@ -286,5 +313,19 @@ public class GameManager : MonoBehaviour
 
         buttonCount++;
 
+    }
+
+    public void ReturnStart(){
+        Destroy(pan);
+        SceneManager.LoadScene("EditScene");
+    }
+
+    //"用意するもの"表示非表示
+    public void Want(){
+        wantObjs.SetActive(true);
+    }
+
+    public void WantDelate(){
+        wantObjs.SetActive(false);
     }
 }
