@@ -74,6 +74,7 @@ public class GameManager : MonoBehaviour
         // デフォルトのサイズをとってから縮めてる
         Debug.Log(defaultCreameSizeY);
         cream.transform.localScale  = new Vector3(cream.transform.localScale.x, 0.01f, cream.transform.localScale.z);
+
     }
 
     // Update is called once per frame
@@ -101,8 +102,9 @@ public class GameManager : MonoBehaviour
 
     public void putMaterial()
     {
+        Text2.text = " ";
         //フルーツを全部乗せ終わってからの処理
-        if(nextFruitId==fruitsNum){
+        if (nextFruitId==fruitsNum){
             //クリームを最後までのせる
             creamChangeScale = creamObj.GetComponent<SpriteRenderer>().bounds.size.x / defaultCreameSizeY+1f;
             isIncreasingCream = true;
@@ -139,7 +141,7 @@ public class GameManager : MonoBehaviour
             //カットライン表示
             //cutLine.gameObject.SetActive(true);
             Instantiate(cutLine, new Vector3(6.19f, (float)(cream.GetComponent<MeshRenderer>().bounds.size.y + pans.GetComponent<MeshRenderer>().bounds.size.y), 6.25f), Quaternion.Euler(90f,90f,45f));
-            Text.text = "線の通りに包丁でカットしてください";
+            Text.text = "ラップで包み、カットするライン(赤線)をラップに書いておいてください";
             nextFruitId++;
             return;
         }
@@ -231,13 +233,16 @@ public class GameManager : MonoBehaviour
 
         Debug.Log(currentCreamSizeY);
         Debug.Log(nextFruitPositionY);
-        if (Mathf.Abs(currentCreamSizeY - nextFruitPositionY) < 0.08){
+        if (Mathf.Abs(currentCreamSizeY - nextFruitPositionY) < 0.2){
             //フルーツを対角線上におく
             Vector3 panSize = pans.GetComponent<MeshRenderer>().bounds.size; //パンのサイズ取得
             float z = panSize.z * (x / panSize.x); //zをxに比例させる
             float rotateY = Mathf.Atan(panSize.z / panSize.x); //45°回転
             Instantiate(putFruit, new Vector3(x, y + (float)0.5 * putFruit.GetComponent<MeshRenderer>().bounds.size.y, z), Quaternion.Euler(0f, Mathf.Rad2Deg * -rotateY, 0f));
             Text.text = fruitsName + "をおいてください";
+            if(fruitsName=="キウイ"||fruitsName == "みかん"){
+                Text2.text = "（皮をむいてからのせてください）";
+            }
             nextFruitId++;
             //Debug.Log("フル");
         }

@@ -18,6 +18,7 @@ public class DragFruits : MonoBehaviour
         GameObject buttonObj = GameObject.Find("Button");
         button = buttonObj.GetComponent<Button>();
         //button.onClick.AddListener(CreateFruitsList);
+
     }
 
     void Update()
@@ -53,6 +54,7 @@ public class DragFruits : MonoBehaviour
         if (!onCream)
         {
             Destroy(this.gameObject);
+            button.GetComponent<ButtonScript>().fruitsOverlap = false;
         }
         //クリームの中でマウスを離したら、他のオブジェクトの干渉を受けない(動かなくなる)
         gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;

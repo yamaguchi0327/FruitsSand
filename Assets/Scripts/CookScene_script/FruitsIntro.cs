@@ -40,6 +40,7 @@ public class FruitsIntro : MonoBehaviour
     public GameObject buttonNext2;
     public GameObject buttonNext3;
     public GameObject buttonCream;
+    public Text explanationText;
     public GameObject bg;
 
     public GameObject cream;
@@ -78,6 +79,7 @@ public class FruitsIntro : MonoBehaviour
     //用意するフルーツの説明
     void fruitsType()
     {
+        explanationText.text = "フルーツを用意してください";
         foreach (KeyValuePair<string, List<double>> item in FruitsData)
         {
             if (item.Key.Contains("Fruits_orange"))
@@ -153,6 +155,9 @@ public class FruitsIntro : MonoBehaviour
         FruitsNumGroupes.SetActive(false);
         buttonNext1.SetActive(false);
         buttonNext2.SetActive(true);
+        explanationText.text = "フルーツをカットしてください";
+
+        bool cutAru = false;
 
         int displayCutFruitsIndex = 0; // 必要なフルーツオブジェクトを参照するindex
 
@@ -162,19 +167,22 @@ public class FruitsIntro : MonoBehaviour
             //カットフルーツが一つ以上あったら
             if (cutFruitsNumList[fruitsId.Value] > 0)
             {
+                cutAru = true;
                 // 0個でなければ、dispalyCutFruitsのsetActiveをtrueにし、画像、名前を差し替え、個数表示
                 dispalyCutFruits[displayCutFruitsIndex].SetActive(true);
 
                 Text nameText = dispalyCutFruits[displayCutFruitsIndex].transform.GetChild(0).GetComponent<Text>(); // 0番目は名前
 
                 //個数が1個以上の時、個数も名前の横につける 例：キウイ（２個分）
-                if (cutFruitsNumList[fruitsId.Value] > 1)
-                {
-                    nameText.text = fruitsNameList[fruitsId.Value] + "(" + cutFruitsNumList[fruitsId.Value] + "個分)";
+                //if (cutFruitsNumList[fruitsId.Value] > 1)
+                //{
+                //    nameText.text = fruitsNameList[fruitsId.Value] + "(" + cutFruitsNumList[fruitsId.Value] + "個分)";
 
-                }else{
-                    nameText.text = fruitsNameList[fruitsId.Value];
-                }
+                //}else{
+                //    nameText.text = fruitsNameList[fruitsId.Value];
+                //}
+
+                nameText.text = fruitsNameList[fruitsId.Value] + "(" + cutFruitsNumList[fruitsId.Value] + "切れ)";
 
                 GameObject image = dispalyCutFruits[displayCutFruitsIndex].transform.GetChild(1).gameObject; // 1番目は画像
                 image.GetComponent<Image>().sprite = cutFruitsSpriteImages[fruitsId.Value];
@@ -207,6 +215,9 @@ public class FruitsIntro : MonoBehaviour
                 displayCutFruitsIndex++;
             }
         }
+        if(!cutAru){
+            buttonFastner();
+        }
     }
 
     //GameManagerへつなげるボタン
@@ -218,5 +229,6 @@ public class FruitsIntro : MonoBehaviour
         buttonCream.SetActive(true);
         cream.SetActive(true);
         pans.SetActive(true);
+        explanationText.text = "食パンを用意してください";
     }
 }
